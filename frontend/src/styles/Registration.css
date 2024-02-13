@@ -1,0 +1,48 @@
+/* RegistrationPage Styles */
+.registration-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0; /* Light background color */
+  }
+  
+  .registration-form {
+    background-color: #333;
+    padding: 40px;
+    color: white;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .registration-form h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  .registration-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+  }
+  
+  .registration-form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+  
+  .registration-form button {
+    background-color: #4caf50; /* Green button color */
+    color: white;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  

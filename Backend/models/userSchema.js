@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
     userEmail : {
         type : String,
         required : true,
+        unique: true
     },
     userPassword  :{
         type : String,
@@ -16,6 +17,14 @@ const userSchema = new mongoose.Schema({
     problemsSolved : {
         type : Number,
         default : 0
+    },
+    role: {
+        type: String,
+        default: 'user', 
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
     },
 })
 module.exports = mongoose.model('users',userSchema)

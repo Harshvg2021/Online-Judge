@@ -36,7 +36,6 @@ app.post('/register', async (req, res) => {
             userName,
             userEmail,
             userPassword: hashedPassword,
-            problemsSolved: 0
         });
 
         await newUser.save();

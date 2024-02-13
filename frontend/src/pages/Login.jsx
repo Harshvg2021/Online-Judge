@@ -17,7 +17,6 @@ const LoginPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Basic email validation using regex
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             alert('Invalid email format. Please enter a valid email.');

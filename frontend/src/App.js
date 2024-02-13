@@ -6,6 +6,7 @@ import ProblemsList from "./pages/ProblemList";
 import {Route,Routes} from 'react-router-dom'
 import Problems from "./pages/Problems";
 import Test from "./pages/Test";
+import Registration from "./pages/Registration";
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Route path='/' element={<Login/>} />
         <Route path='/problems' element={<ProblemsList/>} />
         <Route path="/problems/:problemID" element={<Problems/>} />
+        <Route path="/register" element={<Registration/>}></Route>
         <Route path="*" element={<Notfound/>}/> 
       </Routes>
       {/* <Test/> */ }

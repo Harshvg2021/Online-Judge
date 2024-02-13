@@ -2,11 +2,11 @@ const mongoose = require('mongoose')
 
 const submissionSchema = new mongoose.Schema({
     userId : {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     problemId : {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     verdict : {
