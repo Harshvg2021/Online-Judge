@@ -1,65 +1,85 @@
-import React, { useState } from 'react'
-import baseurl from '../middleware/baseurl';
-import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import React, { useState,  } from 'react';
+import { useNavigate } from "react-router-dom";
+import '../styles/Login.css';
 
-function Login() {
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
-    const [email, setEmail] = useState();
-    const [err, setError] = useState();
+const LoginPage = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const navigate = useNavigate();
-
-    const validateEmail = (e) => {
-        const emailreg =
-            /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/;
-        if (!e.target.value.match(emailreg))
-            setError("Please enter a valid email address!");
-        else setError("");
+    const handleEmailChange = (e) => {
         setEmail(e.target.value);
     };
 
-    const validatePassword = (e) => {
-        const passwordreg =
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%#*?&])[A-Za-z\d@$!%#*?&]{8,}$/;
-        if (!e.target.value.match(passwordreg))
-            setError(
-                "Use 8 or more characters with a mix of letters, numbers & symbols :)"
-            );
-        else setError("");
+    const handlePasswordChange = (e) => {
         setPassword(e.target.value);
     };
 
-    const handleSubmit = async (e)=>{
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(username, email, password);
-        try{
-            const response  = await axios.post(baseurl + "/register", {
-                userEmail : email,
-                userPassword : password,
-                userName : username
-            })
-            alert("User registered")
-            navigate('problems')
-        }catch(err){
-            console.log(err)
+
+        // Basic email validation using regex
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert('Invalid email format. Please enter a valid email.');
+            return;
         }
 
-    }
+        try {
+            const response = await fetch('http://localhost:4443/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userEmail: email,
+                    userPassword: password,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                navigate('/problems')
+                console.log('Login successful. Token:', data.token);
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred during login. Please try again.');
+        }
+    };
+
     return (
-        <div> 
-            <p>LOGIN FORM</p>
-            <form onSubmit={handleSubmit} >
-                <label>Enter Username : </label>
-                <input value={username} onChange={(e)=>setUsername(e.target.value)} placeholder='Username' type='text' required></input>
-                <label>Enter Email : </label>
-                <input value={email} onChange={(e)=>setEmail(e.target.value)} placeholder='Email' type='Email' required></input>
-                <label>Enter Password : </label>
-                <input value={password} onChange={(e)=>setPassword(e.target.value)} placeholder='Password' type='Password'></input>
-                <button type='submit' >submit</button>
+        <div className="login-container">
+            <form className="login-form" onSubmit={handleSubmit}>
+                <h2>Login</h2>
+                <label htmlFor="email">Email:</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={handleEmailChange}
+                    required
+                />
+
+                <label htmlFor="password">Password:</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={handlePasswordChange}
+                    required
+                />
+
+                <button type="submit">Login</button>
             </form>
         </div>
-    )
-}
+    );
+};
 
-export default Login
+export default LoginPage;

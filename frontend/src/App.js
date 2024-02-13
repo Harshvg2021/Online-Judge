@@ -18,7 +18,6 @@ function App() {
         <Route path="/problems/:problemID" element={<Problems/>} />
         <Route path="*" element={<Notfound/>}/> 
       </Routes>
-      <Back/>
       {/* <Test/> */ }
     </>
   );

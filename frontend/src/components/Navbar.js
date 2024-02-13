@@ -1,23 +1,28 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import '../styles/Navbar.css';
 
-function Navbar() {
-    const navLinkStyles = ({isActive})=>{
-        return {
-            fontWeight : isActive ? "bold" : "normal",
-            textDecoration : isActive  ? "none" : "underline"
-        }
-    }
+const Navbar = () => {
   return (
-    <div style={{display: "flex", flexDirection: "row",marginRight: "10px"}} >
-        <div>
-            <NavLink style={navLinkStyles} to='/'>Login </NavLink>
-        </div>
-        <div>
-            <NavLink style={navLinkStyles} to='/problems'>Problem-List</NavLink>
-        </div>
+    <div className="navbar-container">
+      <div className="navbar-left">
+        <Link to="/" className="navbar-link">
+          <span>OJ</span>
+        </Link>
+      </div>
+      <div className="navbar-right">
+        <Link to="/problem-list" className="navbar-link">
+          Problem List
+        </Link>
+        <Link to="/problems" className="navbar-link">
+          Problems
+        </Link>
+        <Link to="/about-us" className="navbar-link">
+          About Us
+        </Link>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;
