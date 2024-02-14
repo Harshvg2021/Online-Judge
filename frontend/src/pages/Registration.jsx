@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import '../styles/Registration.css';
 
 const Registration = () => {
+  const navigate= useNavigate();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,7 +25,7 @@ const Registration = () => {
     setConfirmPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -37,8 +39,31 @@ const Registration = () => {
       return;
     }
 
-    // Your registration logic here
-    console.log('Registration Details:', { username, email, password });
+    try {
+      const response = await fetch('http://localhost:4443/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName: username,
+          userEmail: email,
+          userPassword: password,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // const token = data.token;
+        // console.log('Registration successful. Token:', data.token);
+        // Store the token securely, e.g., in localStorage or cookies
+        // localStorage.setItem('authToken', token);
+        navigate('/login')
+      } 
+    } catch (error) {
+      console.error('Error during registration:', error);
+      alert('An error occurred during registration. Please try again.');
+    }
   };
 
   return (
@@ -93,6 +118,6 @@ const Registration = () => {
       </form>
     </div>
   );
-}
+};
 
 export default Registration;

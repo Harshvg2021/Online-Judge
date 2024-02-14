@@ -1,0 +1,40 @@
+/* ProblemList.css */
+
+.problem-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .problem-card {
+    display: flex;
+    margin: 10px;
+    padding: 15px;
+    border: 1px solid #3498db; /* Border color */
+    border-radius: 10px;
+    width: 400px; /* Increased width */
+    background-color: #ecf0f1; /* Background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .index-container {
+    margin-right: 10px;
+    color: #2c3e50; /* Text color */
+    font-weight: bold;
+  }
+  
+  .content-container {
+    flex-grow: 1;
+  }
+  
+  .content-container p {
+    margin: 0; /* Remove default margin for better appearance */
+  }
+  
+  /* Hover effect for the card */
+  .problem-card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    transition: box-shadow 0.3s, transform 0.3s;
+  }
+  

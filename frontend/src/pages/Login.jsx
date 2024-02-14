@@ -38,8 +38,10 @@ const LoginPage = () => {
             const data = await response.json();
 
             if (response.ok) {
-                navigate('/problems')
                 console.log('Login successful. Token:', data.token);
+                const token = data.token
+                localStorage.setItem('authToken',token)
+                navigate('/problems')
             } else {
                 alert(data.message);
             }

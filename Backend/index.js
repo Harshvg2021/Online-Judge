@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 
+
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
@@ -39,7 +40,8 @@ app.post('/register', async (req, res) => {
         });
 
         await newUser.save();
-
+        // const token =  jwt.sign({userid : newUser._id},process.env.JWT_SECRET,{expiresIn: '10d'})
+        // console.log(token);
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
         console.error(error);
