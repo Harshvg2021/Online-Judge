@@ -18,10 +18,10 @@ const problemSchema = new mongoose.Schema({
         required :true
     },
     sampleInput : {
-        type : JSON
+        type : [Number]
     },
     sampleOutput : {
-        type : JSON
+        type : [Number]
     }
 })
 module.exports = mongoose.model('problems',problemSchema);
