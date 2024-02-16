@@ -1,54 +1,85 @@
-import React, { useEffect, useState } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
+// Problems.js
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import baseurl from '../middleware/baseurl';
+import '../styles/Problems.css'; // Import the CSS file
 
 function Problems() {
-  const params = useParams();
-  const problemID = params.problemID;
-  console.log(problemID);
-  const [problemData, setProblemData] = useState([]);
+  const { problemID } = useParams();
+  const [problemData, setProblemData] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchProblemData()
-  }, [])
+    fetchProblemData();
+  }, [problemID]);
 
   const fetchProblemData = async () => {
     try {
-      console.log("Inside the Function??");
-      const response = await axios.post(baseurl + "/getProblems", {
-        problemId : problemID
+      const response = await fetch("http://localhost:4443/getProblems", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          problemId: problemID,
+        }),
       });
-      setProblemData(response.data)
-      console.log(response.data);
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      setProblemData(data);
+      console.log(problemData);
       setLoading(false);
     } catch (err) {
-      console.log(err);
+      console.error('Error fetching problem data:', err);
       setLoading(false);
     }
-  }
+  };
+  
   return (
-    <>
-      {
-        <div >
-          <div style={{ marginRight: "5px" }}>
-            <p>{problemData.heading}</p>
-          </div>
+    <div className="container">
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
           <div>
-            <p>{problemData.statement}</p>
+            <h1 className="heading">{problemData.heading}</h1>
           </div>
-          <div>
-            <p>INPUT : {problemData.input}</p>
+          <div className="statement-container">
+            <p className="statement">{problemData.statement}</p>
           </div>
-          <div>
-            <p>OUTPUT : {problemData.input}</p>
+          <div className="section">
+            <h2>Input Format:</h2>
+            <pre>{problemData.input}</pre>
           </div>
-        </div>
-      }
-
-    </>
-  )
+          <div className="section">
+            <h2>Output Format:</h2>
+            <pre>{problemData.output}</pre>
+          </div>
+          <div className="section">
+            <h2>Sample Input:</h2>
+            <div className="sample-container">
+              {problemData.sampleInput.map((line, index) => (
+                <pre key={index}>{line}</pre>
+              ))}
+            </div>
+          </div>
+          <div className="section">
+            <h2>Sample Output:</h2>
+            <div className="sample-container">
+              {problemData.sampleOutput.map((line, index) => (
+                <pre key={index}>{line}</pre>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
 
-export default Problems
+export default Problems;

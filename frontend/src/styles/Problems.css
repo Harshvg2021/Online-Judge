@@ -1,0 +1,45 @@
+/* Problems.css */
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.statement-container {
+    width: 75%;
+    margin: auto;
+}
+
+.statement {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.section {
+    margin-top: 20px;
+}
+
+h2 {
+    font-size: 18px;
+}
+
+pre {
+    white-space: pre-wrap;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.sample-container {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+

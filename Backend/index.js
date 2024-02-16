@@ -57,6 +57,7 @@ app.post('/getProblems' ,async (req,res)=>{
         } else {
             const specificProblemId = req.body.problemId; 
             const specificProblem = await problems.findById(specificProblemId); 
+            console.log(specificProblem)
             res.json(specificProblem);
         }
     }catch(err){

@@ -13,22 +13,17 @@ mongoose.connect(process.env.CONN_STRING, { dbName: "OJ" })
 
 const problem = require('./models/problemSchema')
 const newProblem = new problem({
-    heading: 'Valid Parentheses',
-    statement: "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.An input string is valid if:Open brackets must be closed by the same type of brackets.Open brackets must be closed in the correct order.Every close bracket has a corresponding open bracket of the same type.",
-    input: 'String containing brackets',
-    output: 'return true of false based on the problem statemnet',
-    sampleInput: {
-      input1: 's = "()"',
-      input2: 's = "()[]{}"'
-    },
-    sampleOutput : {
-      output1 : 'true',
-      output2 : 'true'
-    }
+  heading: 'Two Sum Problem',
+  statement: 'Given an array of integers, find two numbers such that they add up to a specific target number.',
+  input: 'The first line denotes the number of test cases. The next line consists of two space-separated integers: the length of the array (n) and the target sum (k). The following line contains n space-separated integers representing the array A.',
+  output: 'For each test case, output two space-separated integers representing the indices of the two numbers whose sum is equal to the target sum. If no such pair is found, output -1.',
+  sampleInput: ["2","4 5","2 2 1 3","2 5","1 1"],
+  sampleOutput: ["1 4","-1"],
   });
   
 newProblem.save().then(()=>{
   console.log("Inserted Succedfully")
 }).catch((err)=>{
+  console.log(err);
   console.log("Error inserting ")
 });

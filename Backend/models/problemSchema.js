@@ -18,10 +18,14 @@ const problemSchema = new mongoose.Schema({
         required :true
     },
     sampleInput : {
-        type : [Number]
+        type : [String]
     },
     sampleOutput : {
-        type : [Number]
+        type : [String]
+    },
+    createdAt:{
+        type: Date,
+        default : Date.now
     }
 })
 module.exports = mongoose.model('problems',problemSchema);
