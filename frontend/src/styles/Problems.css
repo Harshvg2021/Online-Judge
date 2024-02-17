@@ -18,6 +18,8 @@
 }
 
 .statement {
+    font-family: monospace;
+    font-size: 16px;
     text-align: left;
     margin-bottom: 20px;
 }
