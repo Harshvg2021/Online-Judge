@@ -9,11 +9,38 @@ function Problems() {
   const { problemID } = useParams();
   const [problemData, setProblemData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [selectedFile,setSelectedFile] = useState(null);
 
   useEffect(() => {
     fetchProblemData();
   }, [problemID]);
 
+  const handleFileChange = (event)=>{
+    setSelectedFile(event.target.files[0])
+  }
+  const handleSumbit = async()=>{
+    if(!selectedFile){
+      alert("Select file before upload");
+      return ;
+    }
+    const data = new FormData();
+    data.append('codeFile',selectedFile)
+    try{
+      const response = await fetch(baseurl + '/uploadCode', {
+        method: 'POST',
+        body: data,
+      });
+
+      if (!response.ok) {
+        throw new Error('File upload failed.');
+      }
+
+      console.log('File uploaded successfully!');
+      alert('File uploaded succesfully')
+    }catch(error){
+      console.log("error in uploading file : ",error);
+    }
+  }
   const fetchProblemData = async () => {
     try {
       const response = await fetch("http://localhost:4443/getProblems", {
@@ -76,6 +103,8 @@ function Problems() {
               ))}
             </div>
           </div>
+          <input type="file" onChange={handleFileChange}/>
+          <button onClick={handleSumbit}>Submit Code</button>
         </>
       )}
     </div>

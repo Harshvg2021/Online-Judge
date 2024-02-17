@@ -5,11 +5,25 @@ const cors = require('cors');
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
+const multer  = require('multer')
+const {v4: uuidv4} = require('uuid')
+const path = require('path');
 
+const storage = multer.diskStorage({
+    destination : function(req,file,cb){
+        cb(null,'code-uploads/')
+    },
+    filename: function(req,file,cb){
+        const name = uuidv4();
+        cb(null,name+path.extname(file.originalname));
+    },
+})
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
+const upload = multer({storage : storage})
+app.use('/code-uploads', express.static(path.join(__dirname, 'code-uploads')));
 
 env.config();
 
@@ -22,6 +36,11 @@ mongoose.connect(process.env.CONN_STRING, { dbName: "OJ" })
         console.log("MongoDB Connected");
     });
 
+
+app.post('/uploadCode',upload.single("codeFile"),(req,res)=>{
+    console.log(req.file);
+    res.status(200).json({message:"file uploaded"})
+})
 app.post('/register', async (req, res) => {
     try {
         const { userName, userEmail, userPassword } = req.body;
