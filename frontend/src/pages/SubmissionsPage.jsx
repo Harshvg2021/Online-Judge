@@ -36,7 +36,7 @@ const SubmissionsPage = () => {
   }, [userId]);
 
   return (
-    <div>
+    <div className="submissions-container">
       <h1>Your Submissions</h1>
       <table className="submission-table">
         <thead>
