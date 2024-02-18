@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import baseurl from '../middleware/baseurl';
 import '../styles/Problems.css'; // Import the CSS file
+import { extractUserIdFromToken } from '../components/ExtractUserIdFromToken';
+
 
 function Problems() {
   const { problemID } = useParams();
@@ -23,8 +25,13 @@ function Problems() {
       alert("Select file before upload");
       return ;
     }
+    const token = localStorage.getItem('authToken');
     const data = new FormData();
+    const userId = extractUserIdFromToken(token);
+    console.log("userid : ",userId)
     data.append('codeFile',selectedFile)
+    data.append('userId',userId ); 
+    data.append('problemId', problemID); 
     try{
       const response = await fetch(baseurl + '/uploadCode', {
         method: 'POST',
