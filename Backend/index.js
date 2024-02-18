@@ -101,8 +101,21 @@ app.post('/getProblems' ,async (req,res)=>{
     }
 })
 
-app.get('/getProblem')
+app.post('/getSubmissions',async(req,res)=>{
+    try{
+        const userId = req.body.userId;
+        console.log(userId)
+        if(!userId){
+            return res.status(400).json({message: "User id is required"})
+        }
+        const submissions = await Submission.find({userId})
+        res.status(200).json({submissions})
 
+    }catch(error){
+        console.log("error in submission : ",error)
+        res.status(500).json({message: "Internal server error"})
+    }
+})
 app.post('/login', async (req, res) => {
     try {
         const { userEmail, userPassword } = req.body;

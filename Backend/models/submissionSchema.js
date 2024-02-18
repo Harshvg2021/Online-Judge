@@ -9,6 +9,10 @@ const submissionSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
+    problemName:{
+        type: String,
+        required : true
+    },
     verdict : {
         type: String,
         default : "In Queue"

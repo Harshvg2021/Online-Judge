@@ -1,22 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../styles/SubmissionsPage.css';
+import { extractUserIdFromToken } from '../components/ExtractUserIdFromToken';
+import baseurl from '../middleware/baseurl';
 
-const SubmissionsPage = ({ userId }) => {
+const SubmissionsPage = () => {
   const [submissions, setSubmissions] = useState([]);
-
+  const token = localStorage.getItem('authToken');
+  const userId = extractUserIdFromToken(token);
+  console.log(userId)
   useEffect(() => {
-    const fetchUserSubmissions = async () => {
-      try {
-        const response = await axios.get(`/getsubmissions?userId=${userId}`);
-        setSubmissions(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    const fetchSubmissions = async (userId) => {
+    try {
+      const response = await fetch(`${baseurl}/getSubmissions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId }),
+      });
 
-    fetchUserSubmissions();
+      if (!response.ok) {
+        throw new Error('Failed to fetch submissions');
+      }
+
+      const data = await response.json();
+      const fetchedSubmissions = data.submissions;
+      setSubmissions(fetchedSubmissions);
+    } catch (error) {
+      console.error('Error fetching submissions:', error);
+    }
+  };
+
+    fetchSubmissions(userId);
   }, [userId]);
 
   return (
