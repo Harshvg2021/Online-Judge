@@ -29,6 +29,8 @@ env.config();
 
 const User = require("./models/userSchema")
 const problems = require("./models/problemSchema")
+const Submission = require("./models/submissionSchema")
+
 
 console.log(process.env.CONN_STRING)
 mongoose.connect(process.env.CONN_STRING, { dbName: "OJ" })
@@ -37,9 +39,25 @@ mongoose.connect(process.env.CONN_STRING, { dbName: "OJ" })
     });
 
 
-app.post('/uploadCode',upload.single("codeFile"),(req,res)=>{
-    console.log(req.file);
-    res.status(200).json({message:"file uploaded"})
+app.post('/uploadCode',upload.single("codeFile"), async (req,res)=>{
+    try{
+        console.log(req.file);
+        const newSubmission = new Submission({
+            userId : req.body.userId,
+            problemId : req.body.problemId,
+            codeFile :{
+                filename:req.file.filename,
+                mimetype : req.file.mimetype,
+                size : req.file.size
+            }
+        })
+        await newSubmission.save();
+        res.status(200).json({message:"file uploaded"})
+
+    }catch(error){
+        console.log("upload code error", error)
+        res.status(500).json({error : "internal server error"})
+    }
 })
 app.post('/register', async (req, res) => {
     try {
@@ -59,8 +77,6 @@ app.post('/register', async (req, res) => {
         });
 
         await newUser.save();
-        // const token =  jwt.sign({userid : newUser._id},process.env.JWT_SECRET,{expiresIn: '10d'})
-        // console.log(token);
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
         console.error(error);

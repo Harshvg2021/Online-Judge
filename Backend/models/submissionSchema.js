@@ -11,8 +11,14 @@ const submissionSchema = new mongoose.Schema({
     },
     verdict : {
         type: String,
-        required: true
+        default : "In Queue"
     },
+    codeFile: {
+        filename: String,        
+        originalname: String,    
+        mimetype: String,        
+        size: Number             
+    }
 },
 {timestamps : true}
 )
