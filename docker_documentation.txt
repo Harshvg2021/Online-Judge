@@ -1,0 +1,7 @@
+to run the contianer run 
+docker run -t testing
+
+then 
+docker cp to .. from ..
+then 
+docker exec -it <> node index1.js <args.....>
