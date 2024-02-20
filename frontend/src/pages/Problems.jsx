@@ -29,9 +29,11 @@ function Problems() {
     const data = new FormData();
     const userId = extractUserIdFromToken(token);
     console.log("userid : ",userId)
+
     data.append('codeFile',selectedFile)
     data.append('userId',userId ); 
     data.append('problemId', problemID); 
+    data.append('problemName',problemData.heading)
     try{
       const response = await fetch(baseurl + '/uploadCode', {
         method: 'POST',

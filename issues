@@ -3,3 +3,6 @@ problems and problemList not routed properly
 getproblem need to create 2 routes 
 
 think structure for problems page wheere to submit...
+
+
+in copyfile api think wether to use exec sync or exec ??,..

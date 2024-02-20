@@ -8,6 +8,8 @@ const bodyParser = require('body-parser');
 const multer  = require('multer')
 const {v4: uuidv4} = require('uuid')
 const path = require('path');
+const { execSync } = require('child_process');
+
 
 const storage = multer.diskStorage({
     destination : function(req,file,cb){
@@ -45,6 +47,7 @@ app.post('/uploadCode',upload.single("codeFile"), async (req,res)=>{
         const newSubmission = new Submission({
             userId : req.body.userId,
             problemId : req.body.problemId,
+            problemName : req.body.problemName,
             codeFile :{
                 filename:req.file.filename,
                 mimetype : req.file.mimetype,
@@ -137,6 +140,30 @@ app.post('/login', async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
+});
+
+
+
+
+app.post('/copyFiles', (req, res) => {
+  try {
+    const { problemId,codeFilePath } = req.body;
+
+    const expectedOutputFilePath = path.join(__dirname, `expectedOutputs/${problemId}.txt`);
+    const testcaseFilePath = path.join(__dirname, `testcases/${problemId}.txt`);
+    const inputCodePath = path.join(__dirname,`code-uploads/${codeFilePath}.cpp`)
+    const containerId = process.env.CONTAINER_ID;
+
+    execSync(`docker cp ${expectedOutputFilePath} ${containerId}:./app/expectedOutput.txt`);
+    execSync(`docker cp ${testcaseFilePath} ${containerId}:./app/testcase.txt`);
+    execSync(`docker cp ${inputCodePath} ${containerId}:./app/code.cpp`);
+
+
+    return res.status(200).json({ message: 'Files copied successfully' });
+  } catch (error) {
+    console.error('Error copying files:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 
