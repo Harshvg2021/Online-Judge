@@ -1,6 +1,6 @@
 // Problems.js
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import baseurl from '../middleware/baseurl';
 import '../styles/Problems.css'; // Import the CSS file
@@ -12,6 +12,7 @@ function Problems() {
   const [problemData, setProblemData] = useState({});
   const [loading, setLoading] = useState(true);
   const [selectedFile,setSelectedFile] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchProblemData();
@@ -46,6 +47,8 @@ function Problems() {
 
       console.log('File uploaded successfully!');
       alert('File uploaded succesfully')
+      navigate('/submissions')
+
     }catch(error){
       console.log("error in uploading file : ",error);
     }

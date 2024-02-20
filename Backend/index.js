@@ -167,13 +167,10 @@ app.post('/copyFiles', (req, res) => {
 
         const expectedOutputFilePath = path.join(__dirname, `expectedOutputs/${problemId}.txt`);
         const testcaseFilePath = path.join(__dirname, `testcases/${problemId}.txt`);
-        // const inputCodePath = path.join(__dirname, `code-uploads/${codeFilePath}.cpp`)
         const containerId = process.env.CONTAINER_ID;
 
         execSync(`docker cp ${expectedOutputFilePath} ${containerId}:./app/expectedOutput.txt`);
         execSync(`docker cp ${testcaseFilePath} ${containerId}:./app/testcase.txt`);
-        // execSync(`docker cp ${inputCodePath} ${containerId}:./app/code.cpp`);
-
 
         return res.status(200).json({ message: 'Files copied successfully' });
     } catch (error) {
