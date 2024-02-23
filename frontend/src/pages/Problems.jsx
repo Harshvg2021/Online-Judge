@@ -13,7 +13,7 @@ function Problems() {
   const [loading, setLoading] = useState(true);
   const [selectedFile,setSelectedFile] = useState(null);
   const navigate = useNavigate();
-
+  console.log(problemID)
   useEffect(() => {
     fetchProblemData();
   }, [problemID]);
@@ -46,9 +46,35 @@ function Problems() {
       }
 
       console.log('File uploaded successfully!');
-      alert('File uploaded succesfully')
-      navigate('/submissions')
+      // alert('File uploaded succesfully')
+      console.log("here : ",problemID)
+      const copyFilesResponse = await fetch(baseurl + '/copyFiles', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ problemId : problemID}),
+      });
 
+      if (!copyFilesResponse.ok) {
+        throw new Error('Copying files failed.');
+      }
+
+      console.log('Files copied successfully!');
+
+      const executeCodeResponse = await fetch(baseurl + '/executeCode', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!executeCodeResponse.ok) {
+        throw new Error('Code execution failed.');
+      }
+      console.log('execution passed')
+      navigate('/submissions')
+      
     }catch(error){
       console.log("error in uploading file : ",error);
     }

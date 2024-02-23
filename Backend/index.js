@@ -163,7 +163,7 @@ app.post('/login', async (req, res) => {
 
 app.post('/copyFiles', (req, res) => {
     try {
-        const { problemId, codeFilePath } = req.body;
+        const { problemId} = req.body;
 
         const expectedOutputFilePath = path.join(__dirname, `expectedOutputs/${problemId}.txt`);
         const testcaseFilePath = path.join(__dirname, `testcases/${problemId}.txt`);
