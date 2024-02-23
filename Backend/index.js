@@ -192,6 +192,10 @@ app.post('/executeCode', (req, res) => {
       }
 
       const output = stdout.toString().trimEnd();
+
+    //   if(output == true){
+
+    //   }
       console.log('Command Output:', output);
 
       return res.status(200).json({ message: 'Code executed successfully', output });
