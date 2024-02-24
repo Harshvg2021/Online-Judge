@@ -34,8 +34,8 @@
     background-color: #f5f5f5;
   }
   
-  .verdict-Accepted {
-    background-color: #d4edda;
+  .verdict-accepted {
+    background-color: #00ee38;
   }
   
   .verdict-Wrong-Answer {

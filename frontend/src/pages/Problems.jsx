@@ -1,6 +1,6 @@
 // Problems.js
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { json, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import baseurl from '../middleware/baseurl';
 import '../styles/Problems.css'; // Import the CSS file
@@ -12,6 +12,8 @@ function Problems() {
   const [problemData, setProblemData] = useState({});
   const [loading, setLoading] = useState(true);
   const [selectedFile,setSelectedFile] = useState(null);
+  const [submissionId, setSubmissionId] = useState(null);
+
   const navigate = useNavigate();
   console.log(problemID)
   useEffect(() => {
@@ -44,6 +46,12 @@ function Problems() {
       if (!response.ok) {
         throw new Error('File upload failed.');
       }
+      const responseData = await response.json()
+      
+      setSubmissionId(responseData.submissionId)
+      console.log("submisison id : " ,responseData.submissionId)
+
+      navigate('/submissions')
 
       console.log('File uploaded successfully!');
       // alert('File uploaded succesfully')
@@ -61,19 +69,21 @@ function Problems() {
       }
 
       console.log('Files copied successfully!');
-
+      console.log("submission id 2" ,)
+      const __id= responseData.submissionId;
       const executeCodeResponse = await fetch(baseurl + '/executeCode', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({submissionId : __id})
       });
 
-      if (!executeCodeResponse.ok) {
+      if (!executeCodeResponse.ok) {  
         throw new Error('Code execution failed.');
       }
       console.log('execution passed')
-      navigate('/submissions')
+      
       
     }catch(error){
       console.log("error in uploading file : ",error);

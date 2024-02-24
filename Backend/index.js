@@ -8,7 +8,9 @@ const bodyParser = require('body-parser');
 const multer = require('multer')
 const { v4: uuidv4 } = require('uuid')
 const path = require('path');
-const { execSync,exec } = require('child_process');
+const {execSync } = require('child_process');
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
 
 
 const storage = multer.diskStorage({
@@ -70,7 +72,7 @@ app.post('/uploadCode', upload.single("codeFile"), async (req, res) => {
 
             console.log('Code file copied to container');
 
-            res.status(200).json({ message: 'File uploaded and copied to container successfully' });
+            res.status(200).json({ message: 'File uploaded and copied to container successfully', submissionId: newSubmission._id });
         });
     } catch (error) {
         console.log("upload code error", error);
@@ -163,7 +165,7 @@ app.post('/login', async (req, res) => {
 
 app.post('/copyFiles', (req, res) => {
     try {
-        const { problemId} = req.body;
+        const { problemId } = req.body;
 
         const expectedOutputFilePath = path.join(__dirname, `expectedOutputs/${problemId}.txt`);
         const testcaseFilePath = path.join(__dirname, `testcases/${problemId}.txt`);
@@ -179,31 +181,41 @@ app.post('/copyFiles', (req, res) => {
     }
 });
 
-app.post('/executeCode', (req, res) => {
-  try {
-    const containerId = process.env.CONTAINER_ID;
+app.post('/executeCode', async (req, res) => {
+    try {
+        const { submissionId } = req.body;
+        console.log("submission id", submissionId)
+        const containerId = process.env.CONTAINER_ID;
 
-    const command = `docker exec  ${containerId} node index1.js ./code.cpp ./testcase.txt ./expectedOutput.txt`;
+        const command = `docker exec  ${containerId} node index1.js ./code.cpp ./testcase.txt ./expectedOutput.txt`;
 
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        console.error('Error executing command:', error);
+        let verdict;
+        try {
+            const { stdout, stderr } = await exec(command);
+
+            const output = stdout.toString().trimEnd();
+            console.log('Command Output:', output);
+
+            if (stderr) {
+                verdict = 'Compilation Error';
+            } else if (output === 'true') {
+                verdict = 'Accepted';
+            } else if (output === 'false') {
+                verdict = 'Wrong Answer';
+            }
+
+            console.log("verdict", verdict);
+
+            await Submission.findByIdAndUpdate(submissionId, { verdict }, { new: true });
+            return res.status(200).json({ message: 'Code executed successfully', output });
+        } catch (error) {
+            console.error('Error executing command:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+    } catch (error) {
+        console.error('Error executing code:', error);
         return res.status(500).json({ error: 'Internal Server Error' });
-      }
-
-      const output = stdout.toString().trimEnd();
-
-    //   if(output == true){
-
-    //   }
-      console.log('Command Output:', output);
-
-      return res.status(200).json({ message: 'Code executed successfully', output });
-    });
-  } catch (error) {
-    console.error('Error executing code:', error);
-    return res.status(500).json({ error: 'Internal Server Error' });
-  }
+    }
 });
 
 
