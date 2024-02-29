@@ -13,12 +13,12 @@ mongoose.connect(process.env.CONN_STRING, { dbName: "OJ" })
 
 const problem = require('./models/problemSchema')
 const newProblem = new problem({
-  heading: 'Two Sum Problem',
-  statement: 'Given an array of integers, find two numbers such that they add up to a specific target number.',
-  input: 'The first line denotes the number of test cases. The next line consists of two space-separated integers: the length of the array (n) and the target sum (k). The following line contains n space-separated integers representing the array A.',
-  output: 'For each test case, output two space-separated integers representing the indices of the two numbers whose sum is equal to the target sum. If no such pair is found, output -1.',
-  sampleInput: ["2","4 5","2 2 1 3","2 5","1 1"],
-  sampleOutput: ["1 4","-1"],
+  heading: 'MALE OR FEMALE??',
+  statement: "Gradient want's to organise an event so they have collected some money, all the amount they have collected are in either 50Rs note or 100Rs note, you are given a binary array(containing only 0's and 1's) of length n.if the array[i]=0, it indicates 50Rs note and if array[i]=1 it indicates 100Rs note (0<=i<=n-1). Your Task is to find the total amount collected by gradient club.",
+  input: 'The first line contains t, the number of testcases.Each testcase contains a single binary string s which represents money collected by gradient club.',
+  output: 'For each testcase, output the total money collected by the gradient club.',
+  sampleInput: ["2","01010","000"],
+  sampleOutput: ["350","150"],
   });
   
 newProblem.save().then(()=>{
