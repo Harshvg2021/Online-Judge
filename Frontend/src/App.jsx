@@ -1,11 +1,9 @@
-import Back from "./components/Back";
 import Navbar from "./components/Navbar";
 import Notfound from "./components/Notfound";
 import Login from "./pages/Login";
 import ProblemsList from "./pages/ProblemList";
 import {Route,Routes} from 'react-router-dom'
 import Problems from "./pages/Problems";
-import Test from "./pages/Test";
 import Registration from "./pages/Registration";
 import SubmissionsPage from "./pages/SubmissionsPage";
 
