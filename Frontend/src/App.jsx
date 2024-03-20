@@ -6,12 +6,13 @@ import {Route,Routes} from 'react-router-dom'
 import Problems from "./pages/Problems";
 import Registration from "./pages/Registration";
 import SubmissionsPage from "./pages/SubmissionsPage";
-
-function App() {
+import { Button } from "@nextui-org/react";
+import NavbarTop from "./components/Navbar";
+export default function App() {
 
   return (
     <>
-      <Navbar/>
+      <NavbarTop/>
       <Routes>
         <Route path='/' element={<Login/>} />
         <Route path='/problems' element={<ProblemsList/>} />
@@ -25,4 +26,3 @@ function App() {
   );
 }
 
-export default App;

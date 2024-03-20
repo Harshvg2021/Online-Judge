@@ -1,6 +1,7 @@
 import React, { useState,  } from 'react';
 import { useNavigate } from "react-router-dom";
 import '../styles/Login.css';
+import {Button, ButtonGroup} from "@nextui-org/react";
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -76,7 +77,7 @@ const LoginPage = () => {
                     onChange={handlePasswordChange}
                     required
                 />
-
+                {/* <Button onClick={handleSubmit}>Login</Button> */}
                 <button type="submit">Login</button>
             </form>
         </div>
