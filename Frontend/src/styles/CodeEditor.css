@@ -1,0 +1,14 @@
+.code-editor-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    height: 100vh; /* Set full viewport height */
+  }
+  
+  .code-section {
+    margin-left: 20px; /* Shift to the right */
+    width: 60%; /* Adjust width as needed */
+    padding: 20px;
+    border: 1px solid #ddd; /* Optional border */
+    border-radius: 4px; /* Optional rounded corners */
+  }
+  
