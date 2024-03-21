@@ -15,8 +15,11 @@
     "framer-motion": "^11.0.8",
     "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
+    "react-codemirror2": "^7.3.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.3"
+    "react-router-dom": "^6.22.3",
+    "react-simple-code-editor": "^0.13.1",
+    "react-syntax-highlighter": "^15.5.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",

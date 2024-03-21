@@ -100,11 +100,11 @@ export default function NavbarTop() {
         ) : (
           <>
             <NavbarItem className="hidden lg:flex">
-              <Link href="#">Login</Link>
+              <Link to='/'>Login</Link>
             </NavbarItem>
             <NavbarItem>
               <Button as={Link} color="primary" href="#" variant="flat">
-                Sign Up
+                <Link to="/register">Sign up</Link>
               </Button>
             </NavbarItem>
           </>

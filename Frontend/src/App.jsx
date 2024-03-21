@@ -8,6 +8,7 @@ import Registration from "./pages/Registration";
 import SubmissionsPage from "./pages/SubmissionsPage";
 import { Button } from "@nextui-org/react";
 import NavbarTop from "./components/Navbar";
+import CodeEditor from "./pages/CodeEditor";
 export default function App() {
 
   return (
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/problems/:problemID" element={<Problems/>} />
         <Route path="/register" element={<Registration/>}></Route>
         <Route path="/submissions" element={<SubmissionsPage/>}></Route>
+        <Route path="/test" element={<CodeEditor/>}></Route>
         <Route path="*" element={<Notfound/>}/> 
       </Routes>
       {/* <Test/> */ }
